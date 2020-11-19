@@ -1,0 +1,33 @@
+channel = rapidsai
+
+def get_file_list(channel, package) -> \
+        List[Tuple[date, str, str]]:
+    """
+    Get all of the versions for a specific package
+    :param channel:
+    :param package:
+    :return:
+    """
+    for arch in ('noarch', 'linux-64'):
+    
+        for label in ({channel}, {channel}/label/old, {channel/label/broken):
+        
+        args = ['-c', {label}, '--override-channels', '--info', '--json', f'{package}[subdir={arch}]']
+
+        try:
+            result = conda_cli('search', *args)
+        except PackagesNotFoundError:
+            continue
+        result = json.loads(result[0])[package]
+
+        files = []
+        for pkg in result:
+            version = pkg['version']
+            timestamp = pkg['timestamp']
+            pkg_date = get_date(version, timestamp)
+            fn = pkg['subdir'] + '/' + pkg['fn']
+            file = (pkg_date, version, fn)
+            files.append(file)
+        return files
+        
+    raise Exception('Could not find package: '+package)
