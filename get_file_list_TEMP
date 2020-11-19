@@ -9,7 +9,7 @@ def get_file_list(channel, package) -> \
     :return:
     """
     for arch in ('noarch', 'linux-64'):
-        for label in ({channel}, {channel}/label/old, {channel/label/broken):
+        for label in ({channel}, f'{channel}/label/old', f'{channel}/label/broken'):
             args = ['-c', {label}, '--override-channels', '--info', '--json', f'{package}[subdir={arch}]']
 
             try:
